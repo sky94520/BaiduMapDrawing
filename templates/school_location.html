@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}高校位置展示{% endblock %}
+
+{% block styles %}
+    <style>
+        body, html,#allmap{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin:0;
+        }
+        #allmap {
+            height: 625px;
+            width: 100%;
+        }
+        #show_sidebar {
+            position: absolute;
+            right: -500px;
+            top: 0;
+            bottom: 0;
+            width: 500px;
+            background: whitesmoke;
+            text-align: center;
+            z-index: 999;
+            transition: right 0.5s ease;
+            -moz-transition: right 0.5s ease;
+            -webkit-transition: right 0.5s ease;
+            -o-transition: right 0.5s ease;
+        }
+        #show_sidebar .position-relative {
+            overflow-y: scroll;
+            height: 83%;
+        }
+        #arrow {
+            width: 40px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            left: -40px;
+            margin-top: -25px;
+            font-size: 50px !important;
+            color: #fff;
+        }
+
+        #arrow.show {
+            transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+        }
+    </style>
+    <link rel="stylesheet" href="//api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css"/>
+{% endblock %}
+
+{% block main %}
+    <div class="position-relative">
+        <div id="show_sidebar">
+            <div class="position-relative">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>学校名称</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="show_info_table"></tbody>
+                </table>
+            </div>
+            <div id="arrow" class="fe fe-chevron-left cursor-pointer">
+            </div>
+        </div>
+        <div id="allmap"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="//api.map.baidu.com/getscript?v=3.0&ak={{ BAIDU_AK }}"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+    <script>
+        SCHOOL_LOCATION_URL = "{{ url_for('school_location') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/baiduMap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/show_schools.js') }}"></script>
+{% endblock %}
+
